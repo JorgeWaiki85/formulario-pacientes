@@ -1278,19 +1278,18 @@
         return value + (vital.reportUnit ? ' ' + vital.reportUnit : '');
       }
 
-      function boldLine(label, raw) {
+      function fieldLine(label, raw) {
         var value = oneLine(raw);
         if (!value) return '';
-        return '*' + label + ': ' + value + '*';
+        return '*' + label + ':* ' + value;
       }
 
-      function boldParagraph(raw) {
+      function paragraphLines(raw) {
         var text = cleanText(raw);
         if (!text) return [];
         return text.split('\n')
           .map(function (line) { return line.trim(); })
-          .filter(Boolean)
-          .map(function (line) { return '*' + line + '*'; });
+          .filter(Boolean);
       }
 
       function addSection(parts, title, lines) {
@@ -1308,22 +1307,22 @@
         var menor = getRadio('menor');
 
         parts.push('*INFORME DE ATENCIÓN*');
-        parts.push(boldLine('Fecha', fecha));
-        parts.push(boldLine('Hora', hora));
+        parts.push(fieldLine('Fecha', fecha));
+        parts.push(fieldLine('Hora', hora));
         parts.push('');
 
         addSection(parts, 'DATOS DEL PACIENTE', [
-          boldLine('Nombre', nombreInput.value),
-          boldLine('Edad', fmtEdad(document.getElementById('edad').value)),
-          boldLine('RUN', document.getElementById('run').value),
-          boldLine('Colegio', document.getElementById('colegio').value),
-          boldLine('¿Es menor de edad?', menor)
+          fieldLine('Nombre', nombreInput.value),
+          fieldLine('Edad', fmtEdad(document.getElementById('edad').value)),
+          fieldLine('RUN', document.getElementById('run').value),
+          fieldLine('Colegio', document.getElementById('colegio').value),
+          fieldLine('¿Es menor de edad?', menor)
         ]);
 
         if (menor === 'SI') {
           addSection(parts, 'CONTACTO DE EMERGENCIA', [
-            boldLine('Nombre del contacto', document.getElementById('contactoNombre').value),
-            boldLine('Teléfono de emergencia', document.getElementById('contactoTel').value)
+            fieldLine('Nombre del contacto', document.getElementById('contactoNombre').value),
+            fieldLine('Teléfono de emergencia', document.getElementById('contactoTel').value)
           ]);
         }
 
@@ -1333,33 +1332,33 @@
           VITALS.forEach(function (vital) {
             var input = toma.querySelector('[data-vital="' + vital.key + '"]');
             var value = fmtVital(vital, input ? input.value : '');
-            if (value) values.push(boldLine(vital.label, value));
+            if (value) values.push(fieldLine(vital.label, value));
           });
           if (!values.length) return;
-          vitalLines.push('*Toma ' + (index + 1) + ' · ' + toma.dataset.time + '*');
+          vitalLines.push('*Toma ' + (index + 1) + '* · ' + toma.dataset.time);
           vitalLines.push.apply(vitalLines, values);
         });
         addSection(parts, 'SIGNOS VITALES', vitalLines);
 
         var alergias = getRadio('alergias');
         if (alergias) {
-          var alergiaLines = [boldLine('¿Presenta alergias?', alergias)];
+          var alergiaLines = [fieldLine('¿Presenta alergias?', alergias)];
           if (alergias === 'SI') {
-            alergiaLines.push(boldLine('Indique a qué es alérgico', document.getElementById('alergiaDetalle').value));
+            alergiaLines.push(fieldLine('Indique a qué es alérgico', document.getElementById('alergiaDetalle').value));
           }
           addSection(parts, 'ALERGIAS', alergiaLines);
         }
 
-        addSection(parts, 'MOTIVO DE LA CONSULTA', boldParagraph(document.getElementById('motivo').value));
-        addSection(parts, 'TRATAMIENTO', boldParagraph(document.getElementById('tratamiento').value));
+        addSection(parts, 'MOTIVO DE LA CONSULTA', paragraphLines(document.getElementById('motivo').value));
+        addSection(parts, 'TRATAMIENTO', paragraphLines(document.getElementById('tratamiento').value));
 
         var traslado = getRadio('traslado');
         if (traslado) {
-          var trasladoLines = [boldLine('¿Se realiza traslado?', traslado)];
+          var trasladoLines = [fieldLine('¿Se realiza traslado?', traslado)];
           if (traslado === 'SI') {
-            trasladoLines.push(boldLine('Lugar de traslado', document.getElementById('trasladoLugar').value));
-            trasladoLines.push(boldLine('Ambulancia', document.getElementById('trasladoAmbulancia').value));
-            trasladoLines.push(boldLine('A cargo de', document.getElementById('trasladoACargo').value));
+            trasladoLines.push(fieldLine('Lugar de traslado', document.getElementById('trasladoLugar').value));
+            trasladoLines.push(fieldLine('Ambulancia', document.getElementById('trasladoAmbulancia').value));
+            trasladoLines.push(fieldLine('A cargo de', document.getElementById('trasladoACargo').value));
           }
           addSection(parts, 'TRASLADO', trasladoLines);
         }

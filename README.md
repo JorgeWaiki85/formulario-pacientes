@@ -24,12 +24,12 @@ Funciona sin instalación y sin servidor: todo está en un solo archivo (`index.
 - **Motivo de la consulta y tratamiento:** campos de texto libre.
 - **Traslado (SI/NO):** al elegir SI se habilitan lugar de traslado, ambulancia y a cargo de.
 - **Borrador automático:** si se cierra o recarga la página, los datos se recuperan en el mismo dispositivo.
-- **Vista previa:** muestra el informe tal como se enviará (con los datos en negrita).
+- **Vista previa:** muestra el informe tal como se enviará (títulos y rótulos en negrita, datos normales).
 - **Enviar por WhatsApp:** abre WhatsApp con el informe listo para elegir el contacto.
 
 ## Reglas del informe
 
-- Todos los datos se envían **en negrita** usando el formato de WhatsApp.
+- Los títulos y rótulos van **en negrita** usando el formato de WhatsApp; los datos escritos en los campos se envían sin negrita.
 - Las unidades se agregan solas:
   - FC: `(x min)`
   - FR: `(x min)`
